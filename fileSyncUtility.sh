@@ -14,7 +14,7 @@ showUsage() {
   exit 1
 }
 
-# Check arguments 
+# Check arguments
 if [ "$#" -ne 2 ]; then
   showUsage
 fi
@@ -29,7 +29,7 @@ if [ ! -d "$folderA" ] || [ ! -d "$folderB" ]; then
 fi
 
 # Sync from A to B
-for file in "$folderA"/*; do
+find "$folderA" -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
   filename=$(basename "$file")
   fileInB="$folderB/$filename"
 
@@ -40,7 +40,7 @@ for file in "$folderA"/*; do
 done
 
 # Sync from B to A
-for file in "$folderB"/*; do
+find "$folderB" -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
   filename=$(basename "$file")
   fileInA="$folderA/$filename"
 
